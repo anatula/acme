@@ -1,0 +1,36 @@
+services:
+  coredns:
+    container_name: coredns
+    image: coredns/coredns
+    restart: always
+    volumes:
+      - ./coredns/Corefile:/Corefile
+      - ./coredns/zones:/zones
+    ports:
+      - 53:53/udp
+    command: -conf /Corefile
+  step:
+    image: smallstep/step-ca:0.28.1
+    restart: unless-stopped
+    environment:
+      - DOCKER_STEPCA_INIT_NAME=smallstep
+      - DOCKER_STEPCA_INIT_DNS_NAMES=example.com,localhost
+      - DOCKER_STEPCA_INIT_PASSWORD=smallstep
+      - DOCKER_STEPCA_INIT_ACME=true
+    volumes:
+      - ./step:/home/step
+    ports:
+      - 9000:9000
+    extra_hosts:
+      - example.com:192.168.1.87 # host address
+    dns:
+      - 192.168.1.87 # host address
+  nginx:
+    network_mode: host
+    image: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf

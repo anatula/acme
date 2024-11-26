@@ -1,0 +1,9 @@
+.:53 {
+    auto example.com {
+        directory /zones
+        reload 5s
+    }
+    errors stdout
+    log stdout
+    whoami
+}

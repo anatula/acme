@@ -1,0 +1,17 @@
+{
+  "name": "acme",
+  "version": "1.0.0",
+  "description": "Demo with different ways to interact a with ACME CA server",
+  "main": "http-01.js",
+  "scripts": {
+    "http": "NODE_EXTRA_CA_CERTS=./step/certs/root_ca.crt node challenges/http-01.js",
+    "dns": "NODE_EXTRA_CA_CERTS=./step/certs/root_ca.crt node challenges/dns-01.js",
+    "tls-alpn": "NODE_EXTRA_CA_CERTS=./step/certs/root_ca.crt node challenges/tls-alpn-01.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "acme-client": "^5.4.0"
+  }
+}
